@@ -7,34 +7,28 @@ Node<char>* Ejercicio01::rotateRight(Node<char>* head, int k)
     }
 
     int length = 1;
-    Node<char>* current = head;
+    Node<char>* tail = head;
 
-    // Calcula la longitud de la lista
-    while (current->next) {
+    while (tail->next) {
+        tail = tail->next;
         length++;
-        current = current->next;
     }
 
-    k = k % length;  // Posición efectiva de rotación
+    k = k % length;
 
     if (k == 0) {
-        return head;  // No es necesario rotar
+        return head;
     }
 
-    // Encuentra el nuevo nodo principal después de la rotación
-    Node<char>* new_head = head;
-    for (int i = 0; i < length - k - 1; i++) {
-        new_head = new_head->next;
+    tail->next = head;
+
+    int shift = length - k;
+    while (shift--) {
+        head = head->next;
+        tail = tail->next;
     }
 
-    // Actualiza los punteros para realizar la rotación
-    Node<char>* new_tail = new_head;
-    while (new_tail->next) {
-        new_tail = new_tail->next;
-    }
-    new_tail->next = head;
-    head = new_head->next;
-    new_head->next = nullptr;
+    tail->next = nullptr;
 
     return head;
 }
