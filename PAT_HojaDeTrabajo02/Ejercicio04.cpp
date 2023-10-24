@@ -1,9 +1,10 @@
 #include "Ejercicio04.h"
-#include <queue>
+#include <deque>
 
 FrontMiddleBackQueue::FrontMiddleBackQueue()
 {
 }
+
 void FrontMiddleBackQueue::pushFront(int value)
 {
     queue.push_front(value);
@@ -56,3 +57,4 @@ int FrontMiddleBackQueue::popBack()
     queue.pop_back();
     return back;
 }
+
