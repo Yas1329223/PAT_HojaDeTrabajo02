@@ -1,4 +1,5 @@
 #include "Ejercicio04.h"
+#include <queue>
 
 FrontMiddleBackQueue::FrontMiddleBackQueue()
 {
