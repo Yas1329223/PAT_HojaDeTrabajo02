@@ -1,150 +1,150 @@
-#include "Exercise04.h"
+#include "Ejercicio04.h"
 
 FrontMiddleBackQueue::FrontMiddleBackQueue()
 {
-    frontNode = nullptr;
-    backNode = nullptr;
+	front = nullptr;
+	back = nullptr;
 }
 
 void FrontMiddleBackQueue::pushFront(int value)
 {
-    Node* newNode = new Node{ value };
-    if (frontNode == nullptr) {
-        frontNode = newNode;
-        backNode = newNode;
-    }
-    else {
-        newNode->next = frontNode;
-        frontNode = newNode;
-    }
-    size++;
+	Nodo* newNode = new Nodo{ value };
+	if (front == nullptr) {
+		front = newNode;
+		back = newNode;
+	}
+	else {
+		newNode->next = front;
+		front = newNode;
+	}
+	tamanio++;
 }
 
 void FrontMiddleBackQueue::pushMiddle(int value)
 {
-    Node* newNode = new Node{ value };
+	Nodo* newNode = new Nodo{ value };
 
-    if (frontNode == nullptr) {
-        frontNode = newNode;
-        backNode = newNode;
-    }
-    else if (size == 1) {
-        newNode->next = frontNode;
-        backNode = frontNode;
-        frontNode = newNode;
-    }
-    else {
-        Node* fast = frontNode;
-        Node* slow = frontNode;
-        Node* prev = nullptr;
-        while (fast != nullptr && fast->next != nullptr) {
-            fast = fast->next->next;
-            prev = slow;
-            slow = slow->next;
-        }
-        if (prev != nullptr) {
-            prev->next = newNode;
-        }
-        else {
-            frontNode = newNode;
-        }
-        newNode->next = slow;
-        if (slow == nullptr) {
-            backNode = newNode;
-        }
-    }
-    size++;
+	if (front == nullptr) {
+		front = newNode;
+		back = newNode;
+	}
+	else if (tamanio == 1) {
+		newNode->next = front;
+		back = front;
+		front = newNode;
+	}
+	else {
+		Nodo* fast = front;
+		Nodo* slow = front;
+		Nodo* prev = nullptr;
+		while (fast != nullptr && fast->next != nullptr) {
+			fast = fast->next->next;
+			prev = slow;
+			slow = slow->next;
+		}
+		if (prev != nullptr) {
+			prev->next = newNode;
+		}
+		else {
+			front = newNode;
+		}
+		newNode->next = slow;
+		if (slow == nullptr) {
+			back = newNode;
+		}
+	}
+	tamanio++;
 }
 
 void FrontMiddleBackQueue::pushBack(int value)
 {
-    Node* newNode = new Node{ value };
-    if (backNode == nullptr) {
-        frontNode = newNode;
-        backNode = newNode;
-    }
-    else {
-        backNode->next = newNode;
-        backNode = newNode;
-    }
-    size++;
+	Nodo* newNode = new Nodo{ value };
+	if (back == nullptr) {
+		front = newNode;
+		back = newNode;
+	}
+	else {
+		back->next = newNode;
+		back = newNode;
+	}
+	tamanio++;
 }
 
 int FrontMiddleBackQueue::popFront()
 {
-    if (frontNode == nullptr) {
-        return -1;
-    }
-    int value = frontNode->value;
-    if (frontNode == backNode) {
-        delete frontNode;
-        frontNode = nullptr;
-        backNode = nullptr;
-    }
-    else {
-        Node* temp = frontNode;
-        frontNode = frontNode->next;
-        delete temp;
-    }
-    size--;
-    return value;
+	if (front == nullptr) {
+		return -1;
+	}
+	int valor = front->valor;
+	if (front == back) {
+		delete front;
+		front = nullptr;
+		back = nullptr;
+	}
+	else {
+		Nodo* temporal = front;
+		front = front->next;
+		delete temporal;
+	}
+	tamanio--;
+	return valor;
 }
 
 int FrontMiddleBackQueue::popMiddle()
 {
-    if (frontNode == nullptr) {
-        return -1;
-    }
+	if (front == nullptr) {
+		return -1;
+	}
 
-    if (frontNode == backNode) {
-        int value = frontNode->value;
-        delete frontNode;
-        frontNode = nullptr;
-        backNode = nullptr;
-        size--;
-        return value;
-    }
-    else {
-        Node* fast = frontNode;
-        Node* slow = frontNode;
-        Node* prev = nullptr;
-        while (fast != nullptr && fast->next != nullptr && fast->next->next != nullptr) {
-            fast = fast->next->next;
-            prev = slow;
-            slow = slow->next;
-        }
-        int value = slow->value;
-        if (prev != nullptr) {
-            prev->next = slow->next;
-        }
-        else {
-            frontNode = slow->next;
-        }
-        delete slow;
-        size--;
-        return value;
-    }
+	if (front == back) {
+		int valor = front->valor;
+		delete front;
+		front = nullptr;
+		back = nullptr;
+		tamanio--;
+		return valor;
+	}
+	else {
+		Nodo* fast = front;
+		Nodo* slow = front;
+		Nodo* prev = nullptr;
+		while (fast != nullptr && fast->next != nullptr && fast->next->next != nullptr) {
+			fast = fast->next->next;
+			prev = slow;
+			slow = slow->next;
+		}
+		int valor = slow->valor;
+		if (prev != nullptr) {
+			prev->next = slow->next;
+		}
+		else {
+			front = slow->next;
+		}
+		delete slow;
+		tamanio--;
+		return valor;
+	}
 }
 
 int FrontMiddleBackQueue::popBack()
 {
-    if (frontNode == nullptr) {
-        return -1;
-    }
-    int value = backNode->value;
-    if (frontNode == backNode) {
-        frontNode = nullptr;
-        backNode = nullptr;
-    }
-    else {
-        Node* temp = frontNode;
-        while (temp->next != backNode) {
-            temp = temp->next;
-        }
-        delete backNode;
-        backNode = temp;
-        backNode->next = nullptr;
-    }
-    size--;
-    return value;
+	if (front == nullptr) {
+		return -1;
+	}
+	int valor = back->valor;
+	if (front == back) {
+		front = nullptr;
+		back = nullptr;
+	}
+	else {
+		Nodo* temporal = front;
+		while (temporal->next != back) {
+			temporal = temporal->next;
+		}
+		delete back;
+		back = temporal;
+		back->next = nullptr;
+	}
+	tamanio--;
+	return valor;
 }
