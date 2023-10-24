@@ -1,5 +1,6 @@
 #include "Ejercicio02.h"
-#include <queue>
+#include <string>
+using namespace std;
 
 Node<int>* Ejercicio02::addTwoNumbers(Node<int>* l1, Node<int>* l2) 
 {
