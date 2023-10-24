@@ -16,6 +16,3 @@ public:
 
 	int popBack();
 };
-private:
-    std::deque<int> queue;
-};
