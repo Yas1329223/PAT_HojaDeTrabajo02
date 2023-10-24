@@ -3,71 +3,54 @@
 FrontMiddleBackQueue::FrontMiddleBackQueue()
 {
 	front = nullptr;
-	middle = nullptr;
 	back = nullptr;
 }
 
 void FrontMiddleBackQueue::pushFront(int value)
 {
-	Nodo* newNode = new Nodo{ value };
-	if (front == nullptr)
-    {
-		front = newNode;
-		middle = newNode;
-		back = newNode;
+	Nodo* nuevo = new Nodo{ value };
+	if (front == nullptr) {
+		front = nuevo;
+		back = nuevo;
 	}
 	else {
-		newNode->next = front;
-		front = newNode;
-		if (tamanio % 2 == 0) {
-			middle = middle->next;
-		}
+		nuevo->next = front;
+		front = nuevo;
 	}
 	tamanio++;
 }
 
 void FrontMiddleBackQueue::pushMiddle(int value)
 {
-	Nodo* newNode = new Nodo{ value };
+	Nodo* nuevo = new Nodo{ value };
 
-	if (front == nullptr)
-    {
-		front = newNode;
-		middle = newNode;
-		back = newNode;
+	if (front == nullptr) {
+		front = nuevo;
+		back = nuevo;
 	}
-	else if (tamanio == 1)
-    {
-		newNode->next = front;
+	else if (tamanio == 1) {
+		nuevo->next = front;
 		back = front;
-		front = newNode;
-		middle = front;
+		front = nuevo;
 	}
 	else {
-		Nodo* fast = front;
-		Nodo* slow = front;
-		Nodo* prev = nullptr;
-		while (fast != nullptr && fast->next != nullptr) {
-			fast = fast->next->next;
-			prev = slow;
-			slow = slow->next;
+		Nodo* rapido = front;
+		Nodo* lento = front;
+		Nodo* previo = nullptr;
+		while (rapido != nullptr && rapido->next != nullptr) {
+			rapido = rapido->next->next;
+			previo = lento;
+			lento = lento->next;
 		}
-		if (prev != nullptr)
-        {
-			prev->next = newNode;
+		if (previo != nullptr) {
+			previo->next = nuevo;
 		}
-		else 
-        {
-			front = newNode;
+		else {
+			front = nuevo;
 		}
-		newNode->next = slow;
-		if (slow == nullptr)
-        {
-			back = newNode;
-		}
-		else if (tamanio % 2 == 0)
-        {
-			middle = middle->next;
+		nuevo->next = lento;
+		if (lento == nullptr) {
+			back = nuevo;
 		}
 	}
 	tamanio++;
@@ -75,123 +58,93 @@ void FrontMiddleBackQueue::pushMiddle(int value)
 
 void FrontMiddleBackQueue::pushBack(int value)
 {
-	Nodo* newNode = new Nodo{ value };
+	Nodo* nuevo = new Nodo{ value };
 	if (back == nullptr) {
-		front = newNode;
-		middle = newNode;
-		back = newNode;
+		front = nuevo;
+		back = nuevo;
 	}
-	else
-    {
-		back->next = newNode;
-		back = newNode;
-		if (tamanio % 2 == 1) 
-        {
-			middle = middle->next;
-		}
+	else {
+		back->next = nuevo;
+		back = nuevo;
 	}
 	tamanio++;
 }
 
 int FrontMiddleBackQueue::popFront()
 {
-	if (front == nullptr)
-    {
+	if (front == nullptr) {
 		return -1;
 	}
-	int value = front->value;
-	if (front == back) 
-    {
+	int valor = front->valor;
+	if (front == back) {
 		delete front;
 		front = nullptr;
-		middle = nullptr;
 		back = nullptr;
 	}
 	else {
-		Nodo* temp = front;
+		Nodo* temporal = front;
 		front = front->next;
-		delete temp;
-		if (tamanio % 2 == 1) 
-        {
-			middle = middle->next;
-		}
+		delete temporal;
 	}
 	tamanio--;
-	return value;
+	return valor;
 }
 
 int FrontMiddleBackQueue::popMiddle()
 {
-	if (front == nullptr) 
-    {
+	if (front == nullptr) {
 		return -1;
 	}
 
-	if (front == back)
-    {
-		int value = front->value;
+	if (front == back) {
+		int valor = front->valor;
 		delete front;
 		front = nullptr;
-		middle = nullptr;
 		back = nullptr;
 		tamanio--;
-		return value;
+		return valor;
 	}
 	else {
-		Nodo* fast = front;
-		Nodo* slow = front;
-		Nodo* prev = nullptr;
-		while (fast != nullptr && fast->next != nullptr && fast->next->next != nullptr) {
-			fast = fast->next->next;
-			prev = slow;
-			slow = slow->next;
+		Nodo* rapido = front;
+		Nodo* lento = front;
+		Nodo* previo = nullptr;
+		while (rapido != nullptr && rapido->next != nullptr && rapido->next->next != nullptr) {
+			rapido = rapido->next->next;
+			previo = lento;
+			lento = lento->next;
 		}
-		int value = slow->value;
-		if (prev != nullptr)
-        {
-			prev->next = slow->next;
+		int valor = lento->valor;
+		if (previo != nullptr) {
+			previo->next = lento->next;
 		}
 		else {
-			front = slow->next;
+			front = lento->next;
 		}
-		delete slow;
+		delete lento;
 		tamanio--;
-		if (tamanio % 2 == 0)
-        {
-			middle = middle->next;
-		}
-		return value;
+		return valor;
 	}
 }
 
 int FrontMiddleBackQueue::popBack()
 {
-	if (front == nullptr)
-    {
+	if (front == nullptr) {
 		return -1;
 	}
-	int value = back->value;
-	if (front == back)
-    {
-		delete front;
+	int valor = back->valor;
+	if (front == back) {
 		front = nullptr;
-		middle = nullptr;
 		back = nullptr;
 	}
 	else {
-		Nodo* temp = front;
-		while (temp->next != back) 
-        {
-			temp = temp->next;
+		Nodo* temporal = front;
+		while (temporal->next != back) {
+			temporal = temporal->next;
 		}
 		delete back;
-		back = temp;
+		back = temporal;
 		back->next = nullptr;
-		if (tamanio % 2 == 0)
-        {
-			middle = middle->next;
-		}
 	}
 	tamanio--;
-	return value;
+	return valor;
 }
