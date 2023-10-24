@@ -1,6 +1,15 @@
 #pragma once
 class FrontMiddleBackQueue
 {
+private:
+	struct Nodo
+	{
+		int valor;
+		Nodo* next = nullptr;
+	};
+	Nodo* front;
+	Nodo* back;
+	int tamanio = 0;
 public:
 	FrontMiddleBackQueue();
 
